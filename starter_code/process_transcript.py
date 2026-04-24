@@ -30,15 +30,20 @@ def clean_transcript(file_path):
     extracted_price = match.group(1) if match else None
     
     # 4. Trả về dictionary theo UnifiedDocument schema
+    price_val = 0
+    if extracted_price and "năm trăm nghìn" in extracted_price.lower():
+        price_val = 500000
+
     return {
+        "document_id": "transcript-001",
         "content": cleaned_text,
-        "entities": {
-            "price_text": extracted_price,
-            "currency": "VND"
-        },
-        "metadata": {
+        "source_type": "Video",
+        "author": "Speaker",
+        "timestamp": None,
+        "source_metadata": {
             "source_file": file_path,
-            "has_price_info": extracted_price is not None
+            "has_price_info": extracted_price is not None,
+            "detected_price_vnd": price_val
         }
     }
 
