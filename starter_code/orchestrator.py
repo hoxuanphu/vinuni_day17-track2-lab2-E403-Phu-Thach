@@ -40,28 +40,33 @@ def main():
     # Save final_kb to output_path using json.dump
 
     # Process PDF
+    print("Processing PDF document...")
     pdf_doc = extract_pdf_data(pdf_path)
     if pdf_doc and run_quality_gate(pdf_doc):
         final_kb.append(pdf_doc)
 
     # Process Transcript
+    print
     trans_doc = clean_transcript(trans_path)
     if trans_doc and run_quality_gate(trans_doc):
         final_kb.append(trans_doc)
 
     # Process HTML
+    print("Processing HTML catalog...")
     html_docs = parse_html_catalog(html_path)
     for doc in html_docs:
         if doc and run_quality_gate(doc):
             final_kb.append(doc)
 
     # Process CSV
+    print("Processing CSV sales records...")
     csv_docs = process_sales_csv(csv_path)
     for doc in csv_docs:
         if doc and run_quality_gate(doc):
             final_kb.append(doc)
 
     # Process Legacy Code
+    print("Processing legacy code...")
     code_doc = extract_logic_from_code(code_path)
     if code_doc and run_quality_gate(code_doc):
         final_kb.append(code_doc)
