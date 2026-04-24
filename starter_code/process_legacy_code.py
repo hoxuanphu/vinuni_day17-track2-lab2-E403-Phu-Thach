@@ -42,9 +42,21 @@ def extract_logic_from_code(file_path):
             extracted_data["business_rules"].append(rule.strip())
 
     except SyntaxError as e:
-        return {"error": f"Failed to parse Python code: {str(e)}"}
+        return None
     
-    return extracted_data
+    # Format into UnifiedDocument
+    content_summary = f"Extracted {len(extracted_data['functions'])} functions and {len(extracted_data['business_rules'])} business rules."
+    if extracted_data['business_rules']:
+        content_summary += " Rules: " + "; ".join(extracted_data['business_rules'])
+
+    return {
+        "document_id": "code-legacy-001",
+        "content": content_summary,
+        "source_type": "Code",
+        "author": "Legacy System",
+        "timestamp": None,
+        "source_metadata": extracted_data
+    }
 
 # Ví dụ test nhanh
 # result = extract_logic_from_code('path/to/your/legacy_script.py')
